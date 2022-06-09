@@ -1,6 +1,7 @@
 ﻿using API.Models;
 using API.Repos;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -17,15 +18,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<LivingCreature>>> GetAll()
         {
-            return Ok(await _livingCreatureRepository.GetAllAsync());
+            var result = await _livingCreatureRepository.GetAll();
+            return Ok(result);
         }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<LivingCreature>> GetById(string id)
         {
-            var creature = await _livingCreatureRepository.GetByIDAsync(id);
+            var creature = await _livingCreatureRepository.GetById(id);
             if (creature == null)
                 return NotFound();
             return Ok(creature);
@@ -34,27 +36,27 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(LivingCreature creature)
         {
-            await _livingCreatureRepository.AddCreatureAsync(creature);
+            await _livingCreatureRepository.Create(creature);
             return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(LivingCreature creature)
         {
-            var creatureUpdated = await _livingCreatureRepository.GetByIDAsync(creature.Id);
+            var creatureUpdated = await _livingCreatureRepository.GetById(creature.Id);
             if (creatureUpdated == null)
                 return NotFound();
-            await _livingCreatureRepository.UpdateCreatureAsync(creature.Id, creature);
+            await _livingCreatureRepository.Update(creature.Id, creature);
             return Ok();
         }
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var creatureDeleted = await _livingCreatureRepository.GetByIDAsync(id);
+            var creatureDeleted = await _livingCreatureRepository.GetById(id);
             if(creatureDeleted == null)
                 return NotFound();
-            await _livingCreatureRepository.DeleteCreatureAsync(id);
+            await _livingCreatureRepository.Delete(id);
             return Ok();
         }
 

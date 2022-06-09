@@ -1,6 +1,7 @@
 using API.Data;
 using API.Models;
 using API.Repos;
+using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,7 @@ namespace API
             });
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSingleton<IMyWorldContext, MyWorldContext>();
+            services.AddScoped<ILivingCreatureService, LivingCreatureService>();
             services.AddScoped<ILivingCreatureRepository, LivingCreatureRepository>();
         }
 

@@ -4,12 +4,8 @@ using System.Threading.Tasks;
 
 namespace API.Repos
 {
-    public interface ILivingCreatureRepository
+    public interface ILivingCreatureRepository : IRepository<LivingCreature>
     {
-        Task<IList<LivingCreature>> GetAllAsync();
-        Task<LivingCreature?> GetByIDAsync(string id);
-        Task AddCreatureAsync(LivingCreature creature);
-        Task UpdateCreatureAsync(string id, LivingCreature updatedBook);
-        Task DeleteCreatureAsync(string id);
+       
     }
 }
