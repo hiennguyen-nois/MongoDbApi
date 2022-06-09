@@ -11,19 +11,12 @@ namespace API.Repos
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly IMongoCollection<TEntity> _collection;
-        private readonly IMyWorldContext _context;
-
-        public IMyWorldContext Context { get; }
+        //private readonly IMyWorldContext _context;
 
         protected Repository(IOptions<AppSettings> options, IMyWorldContext myWorldContext)
         {
-            _context = myWorldContext;
-            _collection = _context.MyWorldDb.GetCollection<TEntity>(options.Value.CollectionName);
-        }
-
-        public Repository(IMyWorldContext context)
-        {
-            Context = context;
+            //_context = myWorldContext;
+            _collection = myWorldContext.MyWorldDb.GetCollection<TEntity>(options.Value.LivingCreatureCollection);
         }
 
         public async Task<TEntity> GetById(string id)
@@ -35,6 +28,7 @@ namespace API.Repos
         public async Task<IEnumerable<TEntity>> GetAll()
         {
             var all = await _collection.FindAsync(Builders<TEntity>.Filter.Empty);
+            Console.WriteLine(all);
             return all.ToList();
         }
 
