@@ -33,6 +33,7 @@ namespace API.Controllers
             return Ok(creature);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Create(LivingCreature creature)
         {
@@ -54,7 +55,7 @@ namespace API.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var creatureDeleted = await _livingCreatureRepository.GetById(id);
-            if(creatureDeleted == null)
+            if (creatureDeleted == null)
                 return NotFound();
             await _livingCreatureRepository.Delete(id);
             return Ok();
