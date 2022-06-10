@@ -24,6 +24,20 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-creature-with-name/{name}")]
+        public async Task<ActionResult<IEnumerable<LivingCreature>>> GetByName(string name)
+        {
+            var result = await _livingCreatureRepository.GetAllByField(nameof(LivingCreature.CreatureName), name);
+            return Ok(result);
+        }
+
+        [HttpGet("get-creature-with-field")]
+        public async Task<ActionResult<IEnumerable<LivingCreature>>> GetByField(string name)
+        {
+            var result = await _livingCreatureRepository.GetAllByField(nameof(LivingCreature.CreatureName), name);
+            return Ok(result);
+        }
+
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<LivingCreature>> GetById(string id)
         {
@@ -32,6 +46,8 @@ namespace API.Controllers
                 return NotFound();
             return Ok(creature);
         }
+
+
 
 
         [HttpPost]

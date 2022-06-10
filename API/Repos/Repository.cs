@@ -20,13 +20,19 @@ namespace API.Repos
 
         public async Task<TEntity> GetById(string id)
         {
-            var data = await _collection.Find(FilterId(id)).SingleOrDefaultAsync();
+            var data = await _collection.Find(Filter(id)).SingleOrDefaultAsync();
             return data;
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
             var all = await _collection.FindAsync(Builders<TEntity>.Filter.Empty);
+            return all.ToList();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllByField(string fieldName, string key)
+        {
+            var all = await _collection.FindAsync(Filter(fieldName, key));
             return all.ToList();
         }
 
@@ -39,18 +45,23 @@ namespace API.Repos
 
         public async Task<TEntity> Update(string id, TEntity obj)
         {
-            await _collection.ReplaceOneAsync(FilterId(id), obj);
+            await _collection.ReplaceOneAsync(Filter(id), obj);
             return obj;
         }
 
         public async Task<bool> Delete(string id)
         {
-            var result = await _collection.DeleteOneAsync(FilterId(id));
+            var result = await _collection.DeleteOneAsync(Filter(id));
             return result.IsAcknowledged;
         }
-        private static FilterDefinition<TEntity> FilterId(string key)
+        private static FilterDefinition<TEntity> Filter(string key)
         {
             return Builders<TEntity>.Filter.Eq("Id", key);
+        }
+
+        private static FilterDefinition<TEntity> Filter(string fieldName, string key)
+        {
+            return Builders<TEntity>.Filter.Eq(fieldName, key);
         }
 
         public void Dispose()

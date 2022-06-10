@@ -10,9 +10,11 @@ namespace API.Repos
 {
     public class LivingCreatureRepository : Repository<LivingCreature>, ILivingCreatureRepository
     {
-        
-        public LivingCreatureRepository(IOptions<AppSettings> options, IMyWorldContext context) : base (options, context)
+        private readonly IMyWorldContext _context;
+
+        public LivingCreatureRepository(IOptions<AppSettings> options, IMyWorldContext context) : base(options, context)
         {
+            _context = context;
         }
 
     }

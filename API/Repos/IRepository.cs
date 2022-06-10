@@ -10,6 +10,7 @@ namespace API.Repos
         Task<TEntity> Update(string id, TEntity obj);
         Task<bool> Delete(string id);
         Task<IEnumerable<TEntity>> GetAll();
+        Task<IEnumerable<TEntity>> GetAllByField(string filedName, string id);
         Task<TEntity> GetById(string id);
     }
 }
