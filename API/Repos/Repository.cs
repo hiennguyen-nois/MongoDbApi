@@ -14,7 +14,7 @@ namespace API.Repos
 
         protected Repository(IOptions<AppSettings> options, IMyWorldContext myWorldContext)
         {
-            _collection = myWorldContext.MyWorldDb.GetCollection<TEntity>(options.Value.LivingCreatureCollection);
+            _collection = myWorldContext.MyWorldDb.GetCollection<TEntity>(options.Value.CollectionName);
         }
 
 
