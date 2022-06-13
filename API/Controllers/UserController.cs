@@ -25,35 +25,35 @@ namespace API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<User>> GetById(string id)
         {
-            var creature = await _userRepository.GetByIdAsync(id);
-            if (creature == null)
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
                 return NotFound();
-            return Ok(creature);
+            return Ok(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User creature)
+        public async Task<IActionResult> Create(User user)
         {
-            await _userRepository.CreateAsync(creature);
+            await _userRepository.CreateAsync(user);
             return Ok();
         }
 
 
         [HttpPut]
-        public async Task<IActionResult> Update(User creature)
+        public async Task<IActionResult> Update(User user)
         {
-            var creatureUpdated = await _userRepository.GetByIdAsync(creature.Id);
-            if (creatureUpdated == null)
+            var userUpdated = await _userRepository.GetByIdAsync(user.Id);
+            if (userUpdated == null)
                 return NotFound();
-            await _userRepository.UpdateAsync(creature.Id, creature);
+            await _userRepository.UpdateAsync(user.Id, user);
             return Ok();
         }
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var creatureDeleted = await _userRepository.GetByIdAsync(id);
-            if (creatureDeleted == null)
+            var userDeleted = await _userRepository.GetByIdAsync(id);
+            if (userDeleted == null)
                 return NotFound();
             await _userRepository.DeleteAsync(id);
             return Ok();

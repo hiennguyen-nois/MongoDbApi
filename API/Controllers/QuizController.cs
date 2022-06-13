@@ -30,16 +30,16 @@ namespace API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Quiz>> GetById(string id)
         {
-            var creature = await _quizRepository.GetByIdAsync(id);
-            if (creature == null)
+            var quiz = await _quizRepository.GetByIdAsync(id);
+            if (quiz == null)
                 return NotFound();
-            return Ok(creature);
+            return Ok(quiz);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Quiz creature)
+        public async Task<IActionResult> Create(Quiz quiz)
         {
-            await _quizRepository.CreateAsync(creature);
+            await _quizRepository.CreateAsync(quiz);
             return Ok();
         }
 
@@ -96,20 +96,20 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Quiz creature)
+        public async Task<IActionResult> Update(Quiz quiz)
         {
-            var creatureUpdated = await _quizRepository.GetByIdAsync(creature.Id);
-            if (creatureUpdated == null)
+            var quizUpdated = await _quizRepository.GetByIdAsync(quiz.Id);
+            if (quizUpdated == null)
                 return NotFound();
-            await _quizRepository.UpdateAsync(creature.Id, creature);
+            await _quizRepository.UpdateAsync(quiz.Id, quiz);
             return Ok();
         }
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var creatureDeleted = await _quizRepository.GetByIdAsync(id);
-            if(creatureDeleted == null)
+            var quizDeleted = await _quizRepository.GetByIdAsync(id);
+            if(quizDeleted == null)
                 return NotFound();
             await _quizRepository.DeleteAsync(id);
             return Ok();
