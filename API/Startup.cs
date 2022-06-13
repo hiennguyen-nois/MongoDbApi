@@ -35,8 +35,9 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.AddSingleton<IMyWorldContext, MyWorldContext>();
-            services.AddScoped<ILivingCreatureRepository, LivingCreatureRepository>();
+            services.AddSingleton<IDataContext, DataContext>();
+            services.AddScoped<IQuizRepository, QuizRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
