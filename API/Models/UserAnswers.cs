@@ -6,11 +6,11 @@ namespace API.Models
     {
         public UserAnswers(Questions question, string userAnswer)
         {
-            UserAnswer = userAnswer;
             QuestionNumber = question.QuestionNumber;
             Question = question.Question;
             Answers = question.Answers;
             RightAnswer = question.RightAnswer;
+            UserAnswer = userAnswer;
         }
 
         [BsonElement("userAnswer")]
