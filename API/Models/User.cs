@@ -8,15 +8,15 @@ namespace API.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonElement("firstName")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [BsonElement("lastName")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [BsonElement("quizResults")]
-        public ICollection<Result> Results { get; set; }
+        public IList<Result>? Results { get; set; }
     }
 }

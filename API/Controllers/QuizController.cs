@@ -4,6 +4,7 @@ using API.Repos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -12,10 +13,12 @@ namespace API.Controllers
     public class QuizController : ControllerBase
     {
         private readonly IQuizRepository _quizRepository;
+        private readonly IUserRepository _userRepository;
 
-        public QuizController(IQuizRepository QuizRepository)
+        public QuizController(IQuizRepository quizRepository, IUserRepository userRepository)
         {
-            _quizRepository = QuizRepository;
+            _quizRepository = quizRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -41,18 +44,55 @@ namespace API.Controllers
         }
 
         [HttpPost("marking")]
-        public async Task<IActionResult> Marking(QuizAnswerDTO quizAnswerDTO)
+        public async Task<ActionResult<User>> Marking(QuizAnswerDTO quizAnswerDTO)
         {
-            int totalRightAnswer = 0;
-            var quiz = await _quizRepository.GetByIDAsync(quizAnswerDTO.QuizId);
+            var user = await _userRepository.GetByIDAsync(quizAnswerDTO.UserId);
+            if (user == null)
+                return BadRequest("User not found");
 
+            var quiz = await _quizRepository.GetByIDAsync(quizAnswerDTO.QuizId);
+            if (quiz == null)
+                return BadRequest("Quiz not found");
+
+
+            var quizResult = new Result{
+                QuizId = quiz.Id,
+                QuizName = quiz.Name,
+                UserAnswers = new List<UserAnswers>(),
+                TotalRightAnswer = 0,
+                TotalScore = 0
+            };
+
+            int rightAnswer = 0;
             foreach (var answer in quizAnswerDTO.Answers)
             {
-                var i = quiz.Questions.FirstOrDefault(a => a.QuestionNumber == answer.QuestionNumber);
-                if (i != null && i.RightAnswer.Equals(answer.Answer))
-                    totalRightAnswer++;
+                var question = quiz.Questions.FirstOrDefault(a => a.QuestionNumber == answer.QuestionNumber);
+
+                if (question != null)
+                {
+                    var userAnswer = new UserAnswers(question, answer.Answer);
+                    quizResult.UserAnswers.Add(userAnswer);
+                    if(question.RightAnswer.Equals(answer.Answer))
+                        rightAnswer++;
+                }
             }
-            return Ok(totalRightAnswer * 5);
+
+            quizResult.TotalRightAnswer = rightAnswer;
+            quizResult.TotalScore = rightAnswer * 5;
+
+            if (user.Results == null)
+            {
+                user.Results = new List<Result>()
+                {
+                    quizResult
+                };
+            }
+            else
+                user.Results.Add(quizResult);
+
+            await _userRepository.UpdateUserAsync(user.Id, user);
+
+            return Ok(user);
         }
 
         [HttpPut]

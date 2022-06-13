@@ -10,13 +10,13 @@ namespace API.Models
         public int QuestionNumber { get; set; }
 
         [BsonElement("question")]
-        public string Question { get; set; }
+        public string? Question { get; set; }
 
         [BsonElement("answers")]
-        public List<string> Answers { get; set; }
+        public List<string>? Answers { get; set; }
 
         [BsonElement("rightAnswer")]
-        public string RightAnswer { get; set; }
+        public string? RightAnswer { get; set; }
     }
 
 }
