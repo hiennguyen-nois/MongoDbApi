@@ -25,7 +25,7 @@ namespace API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<User>> GetById(string id)
         {
-            var creature = await _userRepository.GetByIDAsync(id);
+            var creature = await _userRepository.GetByIdAsync(id);
             if (creature == null)
                 return NotFound();
             return Ok(creature);
@@ -34,7 +34,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(User creature)
         {
-            await _userRepository.AddUserAsync(creature);
+            await _userRepository.CreateAsync(creature);
             return Ok();
         }
 
@@ -42,20 +42,20 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(User creature)
         {
-            var creatureUpdated = await _userRepository.GetByIDAsync(creature.Id);
+            var creatureUpdated = await _userRepository.GetByIdAsync(creature.Id);
             if (creatureUpdated == null)
                 return NotFound();
-            await _userRepository.UpdateUserAsync(creature.Id, creature);
+            await _userRepository.UpdateAsync(creature.Id, creature);
             return Ok();
         }
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var creatureDeleted = await _userRepository.GetByIDAsync(id);
+            var creatureDeleted = await _userRepository.GetByIdAsync(id);
             if (creatureDeleted == null)
                 return NotFound();
-            await _userRepository.DeleteUserAsync(id);
+            await _userRepository.DeleteAsync(id);
             return Ok();
         }
 

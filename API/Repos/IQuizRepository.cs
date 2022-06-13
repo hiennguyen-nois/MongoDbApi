@@ -4,12 +4,8 @@ using System.Threading.Tasks;
 
 namespace API.Repos
 {
-    public interface IQuizRepository
+    public interface IQuizRepository : IBaseRepository<Quiz>
     {
-        Task<IList<Quiz>> GetAllAsync();
-        Task<Quiz?> GetByIDAsync(string id);
-        Task AddQuizAsync(Quiz creature);
-        Task UpdateQuizAsync(string id, Quiz updatedQuiz);
-        Task DeleteQuizAsync(string id);
+       
     }
 }

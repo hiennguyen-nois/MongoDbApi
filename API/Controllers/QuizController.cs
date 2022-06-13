@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Quiz>> GetById(string id)
         {
-            var creature = await _quizRepository.GetByIDAsync(id);
+            var creature = await _quizRepository.GetByIdAsync(id);
             if (creature == null)
                 return NotFound();
             return Ok(creature);
@@ -39,18 +39,18 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Quiz creature)
         {
-            await _quizRepository.AddQuizAsync(creature);
+            await _quizRepository.CreateAsync(creature);
             return Ok();
         }
 
         [HttpPost("marking")]
         public async Task<ActionResult<User>> Marking(QuizAnswerDTO quizAnswerDTO)
         {
-            var user = await _userRepository.GetByIDAsync(quizAnswerDTO.UserId);
+            var user = await _userRepository.GetByIdAsync(quizAnswerDTO.UserId);
             if (user == null)
                 return BadRequest("User not found");
 
-            var quiz = await _quizRepository.GetByIDAsync(quizAnswerDTO.QuizId);
+            var quiz = await _quizRepository.GetByIdAsync(quizAnswerDTO.QuizId);
             if (quiz == null)
                 return BadRequest("Quiz not found");
 
@@ -90,7 +90,7 @@ namespace API.Controllers
             else
                 user.Results.Add(quizResult);
 
-            await _userRepository.UpdateUserAsync(user.Id, user);
+            await _userRepository.UpdateAsync(user.Id, user);
 
             return Ok(user);
         }
@@ -98,20 +98,20 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Quiz creature)
         {
-            var creatureUpdated = await _quizRepository.GetByIDAsync(creature.Id);
+            var creatureUpdated = await _quizRepository.GetByIdAsync(creature.Id);
             if (creatureUpdated == null)
                 return NotFound();
-            await _quizRepository.UpdateQuizAsync(creature.Id, creature);
+            await _quizRepository.UpdateAsync(creature.Id, creature);
             return Ok();
         }
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var creatureDeleted = await _quizRepository.GetByIDAsync(id);
+            var creatureDeleted = await _quizRepository.GetByIdAsync(id);
             if(creatureDeleted == null)
                 return NotFound();
-            await _quizRepository.DeleteQuizAsync(id);
+            await _quizRepository.DeleteAsync(id);
             return Ok();
         }
 

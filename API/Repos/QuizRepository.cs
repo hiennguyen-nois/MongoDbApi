@@ -7,28 +7,15 @@ using System.Threading.Tasks;
 
 namespace API.Repos
 {
-    public class QuizRepository : IQuizRepository
+    public class QuizRepository : BaseRepository<Quiz>, IQuizRepository
     {
-        private readonly IMongoCollection<Quiz> _quizCollection;
-        public QuizRepository(IDataContext myWorldContext)
+        private readonly IDataContext _context;
+
+        public QuizRepository(IDataContext context) : base("Quizs", context)
         {
-            _quizCollection = myWorldContext.DataDb.GetCollection<Quiz>("Quizs");
+            _context = context;
         }
 
-        public async Task<IList<Quiz>> GetAllAsync() =>
-            await _quizCollection.Find(_ => true).ToListAsync();
 
-        public async Task<Quiz?> GetByIDAsync(string id) =>
-            await _quizCollection.Find(lv => lv.Id == id).FirstOrDefaultAsync();
-
-        public async Task AddQuizAsync(Quiz creature) =>
-            await _quizCollection.InsertOneAsync(creature);
-
-        public async Task UpdateQuizAsync(string id, Quiz updatedQuiz) =>
-            await _quizCollection.ReplaceOneAsync(x => x.Id == id, updatedQuiz);
-
-
-        public async Task DeleteQuizAsync(string id) =>
-            await _quizCollection.DeleteOneAsync(x => x.Id == id);
     }
 }
