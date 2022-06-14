@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using API.Entities.User;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

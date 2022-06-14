@@ -1,5 +1,5 @@
 ﻿using API.Data;
-using API.Models;
+using API.Entities.User;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Collections.Generic;

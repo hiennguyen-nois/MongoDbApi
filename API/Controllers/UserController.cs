@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using API.Entities.User;
 using API.Repos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

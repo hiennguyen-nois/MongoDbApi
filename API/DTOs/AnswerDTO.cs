@@ -2,8 +2,11 @@
 {
     public class AnswerDTO
     {
-        public int QuestionNumber { get; set; }
-        public string Answer { get; set; }
+        public int Number { get; set; }
+        public string Text { get; set; }
+        public bool IsCorrect { get; set; }
+        public int PointIfCorrect { get; set; }
+        public int PointIfIncorrect { get; set; }
 
     }
 }
