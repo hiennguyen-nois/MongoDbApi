@@ -5,11 +5,8 @@ using System.Collections.Generic;
 
 namespace API.Entities.Test
 {
-    public class Tests
+    public class Tests : BaseEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
 
         [BsonElement("categoryId")]
         public string? CategoryId { get; set; }
@@ -25,9 +22,6 @@ namespace API.Entities.Test
 
         [BsonElement("timeToComplete")]
         public TimeSpan? TimeToComplete { get; set; }
-
-        [BsonElement("createdAt")]
-        public DateTime CreatedAt { get; set; }
 
         [BsonElement("createdByUserId")]
         public string? CreatedByUserId { get; set; }

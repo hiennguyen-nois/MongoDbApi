@@ -102,7 +102,6 @@ namespace API.Controllers
         {
             return new QuestionDTO
             {
-                Number = question.Number,
                 Text = question.Text,
                 Type = question.Type,
                 Answers = MapListAnswerToListAnswerDTO(question.Answers)
@@ -113,7 +112,6 @@ namespace API.Controllers
         {
             return new AnswerDTO
             {
-                Number = answer.Number,
                 Text = answer.Text,
                 IsCorrect = answer.IsCorrect
             };
